@@ -7,12 +7,12 @@ import java.util.List;
 
 public class DataStore {
 
-    public static List<Developer> developers = List.of(
+    public static List<Developer> developers = new ArrayList<>(List.of(
             new Developer(1L, "Luis", new ArrayList<>(List.of(
                     new Skill("Java"),
                     new Skill("Spring")
             )))
-    );
+    ));
 
     public static List<Transition> transitions = List.of(
             new Transition("Java", "Spring", 10, 0.9),

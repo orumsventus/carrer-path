@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PathFinder AI</title>
+    <script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
+</head>
+
+<body>
+
+<h2>Career Map</h2>
+<button onclick="loadGraph()">Cargar mapa</button>
+
+<div id="cy" style="width: 100%; height: 600px;"></div>
+
+<script>
+    function loadGraph() {
+      fetch('http://localhost:8080/graph/1')
+        .then(res => res.json())
+        .then(data => {
+
+          const cy = cytoscape({
+            container: document.getElementById('cy'),
+
+            elements: data.elements,
+
+            style: [
+              {
+                selector: 'node',
+                style: {
+                  'label': 'data(label)',
+                  'background-color': '#0074D9',
+                  'color': '#fff'
+                }
+              },
+              {
+                selector: 'node[color = "green"]',
+                style: {
+                  'background-color': 'green'
+                }
+              },
+              {
+                selector: 'edge',
+                style: {
+                  'line-color': '#ccc',
+                  'target-arrow-shape': 'triangle',
+                  'target-arrow-color': '#ccc'
+                }
+              }
+            ],
+
+            layout: {
+              name: 'cose'
+            }
+          });
+
+          // Click en nodo
+          cy.on('tap', 'node', function(evt){
+            const node = evt.target;
+            alert("Skill: " + node.data('label'));
+          });
+
+        });
+    }
+</script>
+
+</body>
+</html>
