@@ -54,7 +54,10 @@ public class RecommendationController {
         }
 
         // Transiciones
-        for (Transition t : DataStore.transitions) {
+        RecommendationService service = new RecommendationService();
+        List<Transition> transitions = service.getAllTransitions();
+
+        for (Transition t : transitions) {
 
             elements.add(Map.of("data", Map.of(
                     "id", t.to,
@@ -68,5 +71,22 @@ public class RecommendationController {
         }
 
         return Map.of("elements", elements);
+    }
+
+    @PostMapping("/developer")
+    public Developer createDeveloper(@RequestBody Map<String, String> body) {
+
+        Long id = (long) (DataStore.developers.size() + 1);
+        String name = body.get("name");
+
+        Developer dev = new Developer(id, name, new ArrayList<>());
+        DataStore.developers.add(dev);
+
+        return dev;
+    }
+
+    @GetMapping("/developers")
+    public List<Developer> getAllDevelopers() {
+        return DataStore.developers;
     }
 }
